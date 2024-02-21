@@ -43,6 +43,10 @@ if (currnetID == Allassets.size()) {
             // Recursively call the bruteForce method for the next asset
         }
     }
+
+    public void writeOutput(String FileName){
+        
+    }
 public void runprogram()
     {
 // Read input from the text file نورة 
