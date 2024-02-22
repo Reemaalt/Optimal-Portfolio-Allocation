@@ -1,6 +1,30 @@
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+
+// what each assets has
+
+class asset{
+
+    String ID;
+    double expectedReturn;
+    double riskTolerance;
+    int quantity;
+
+
+public asset( String ID, double expectedReturn, double riskTolerance, int quantity ){
+    this.ID = ID;
+    this.expectedReturn = expectedReturn;
+    this.riskTolerance = riskTolerance;
+    this.quantity = quantity;
+
+}
+
+}
+
 
 public class BruteForce  {
 
@@ -23,7 +47,7 @@ if (currnetID == Allassets.size()) {
     // Check if the current allocation is within the risk and investment constraints
     if (currentRisk <= MAXRisk && currentRisk <= totalinvestment) {
         // Calculate the current expected return of the allocation
-         currentReturn = currentAllocation //expectedReturn * quantity sum();
+         currentReturn = currentAllocation//expectedReturn * quantity sum();
         // If the current allocation has a higher expected return, update the optimal allocation
         if (currentReturn > MAXreturn) {
             MAXreturn = currentReturn;
@@ -45,6 +69,18 @@ if (currnetID == Allassets.size()) {
     }
 
     public void writeOutput(String FileName){
+
+        try (PrintWriter pw = new PrintWriter(new FileWriter(fileName))) {
+        pw.write("Optimal Allocation:\n");
+        // Write each asset and its quantity in the optimal allocation
+        for (asset asset : optimalInvsment) {
+            pw.write(asset.ID + ": " + asset.quantity + " units\n");
+        }
+        pw.write("Expected Portfolio Return: " + MAXreturn + "\n");
+        pw.write("Portfolio Risk Level: " + MAXRisk + "\n");
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
         
     }
 public void runprogram()
