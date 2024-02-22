@@ -70,7 +70,7 @@ if (currnetID == Allassets.size()) {
 
     public void writeOutput(String FileName){
 
-        try (PrintWriter pw = new PrintWriter(new FileWriter(fileName))) {
+        try (PrintWriter pw = new PrintWriter(new FileWriter(FileName))) {
         pw.write("Optimal Allocation:\n");
         // Write each asset and its quantity in the optimal allocation
         for (asset asset : optimalInvsment) {
