@@ -17,7 +17,7 @@ static List<asset> Allassets;
 /*Loop through all possible asset allocations using nested loops.
  a. Calculate the total return and total risk for the current allocation.
 b. If the risk is within the specified tolerance and return is greater than maxReturn:
-i. Update maxReturn, minRisk, and optimalAllocation. */
+i. Update maxReturn, minRisk, and optimalAllocation. 
     public void assetAlocater(int currentID,  double currentReturn, double currentRisk, List<asset> currentAllocation) {
     // Base case: all assets allocated
     if (currentID == Allassets.size()) {
@@ -49,7 +49,34 @@ i. Update maxReturn, minRisk, and optimalAllocation. */
         // Remove the current asset from the allocation for backtracking
         currentAllocation.remove(currentAllocation.size() - 1);
     }
+}*/
+
+public void assetAlocater(int currentID, double currentReturn, double currentRisk, List<asset> currentAllocation) {
+    if (currentID == Allassets.size()) {
+        if (currentRisk <= MAXRisk && currentReturn > MAXreturn) {
+            MAXreturn = currentReturn;
+            MAXRisk = currentRisk;
+            optimalInvsment = new ArrayList<>(currentAllocation);
+        }
+        return;
+    }
+
+    asset currentAsset = Allassets.get(currentID);
+
+    for (int i = 0; i <= currentAsset.quantity; i++) {
+        asset copyOfCurrentAsset = new asset(currentAsset.ID, currentAsset.expectedReturn, currentAsset.riskTolerance, currentAsset.quantity);
+        copyOfCurrentAsset.quantity = i;
+        currentAllocation.add(copyOfCurrentAsset);
+
+        double newRisk = currentRisk + copyOfCurrentAsset.riskTolerance * i;
+        double newReturn = currentReturn + copyOfCurrentAsset.expectedReturn * i;
+
+        assetAlocater(currentID + 1, newReturn, newRisk, currentAllocation);
+
+        currentAllocation.remove(currentAllocation.size() - 1);
+    }
 }
+
 
 
     public void writeOutput(String FileName){
@@ -107,7 +134,7 @@ i. Update maxReturn, minRisk, and optimalAllocation. */
 // Read input from the text file نورة 
         readInput("Example.txt");
 // Call the brute force method to find optimal allocation ريما
-        assetAlocater(0, 0, 0, new ArrayList<>());
+        assetAlocater(0, 0, 0, Allassets );
 // Write optimal allocation and results to output file نوف
         writeOutput("Output_BruteForce.txt");
 
