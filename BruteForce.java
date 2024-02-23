@@ -1,3 +1,5 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,7 +12,7 @@ double MAXreturn;
 double MAXRisk;
 double totalinvestment;
 List<asset> optimalInvsment;
-List<asset> Allassets;
+static List<asset> Allassets;
 
 /*Loop through all possible asset allocations using nested loops.
  a. Calculate the total return and total risk for the current allocation.
@@ -65,6 +67,40 @@ i. Update maxReturn, minRisk, and optimalAllocation. */
     }
         
     }
+
+    static void readInput(String fileName) {
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            Allassets = new ArrayList<>();
+            String line;
+            // Read each line from the file and parse asset information
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(":");
+                String id = parts[0].trim();
+                double expectedReturn;
+                double riskLevel;
+                int quantity;
+                try {
+                    expectedReturn = Double.parseDouble(parts[1].trim());
+                    riskLevel = Double.parseDouble(parts[2].trim());
+                    quantity = Integer.parseInt(parts[3].trim());
+                } catch (NumberFormatException e) {
+                    System.err.println("Error parsing numeric values in line: " + line);
+                    continue;  // Skip this line and continue with the next line
+                }
+                Allassets.add(new asset(id, expectedReturn, riskLevel, quantity));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
+
+
+
 
 
     public void runprogram(){
