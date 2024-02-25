@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class BruteForce  {
 
@@ -12,8 +13,8 @@ double MAXreturn;
 double MAXRisk;
 double totalinvestment;
 List<asset> optimalInvsment;
-//static List<asset> Allassets;
- static ArrayList<asset> Allassets = new ArrayList<>();//?
+ static List<asset> Allassets;
+ 
 
 
 /*Loop through all possible asset allocations using nested loops.
@@ -79,17 +80,23 @@ public void assetAlocater(int currentID, double currentReturn, double currentRis
             // Read each line from the file and parse asset information
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(":");
+                if (parts.length < 4) {
+                    System.err.println("Invalid format in line: " + line);
+                    continue;  // Skip this line and continue with the next line
+                }
                 String id = parts[0].trim();
                 double expectedReturn = Double.parseDouble(parts[1].trim());
                 double riskLevel = Double.parseDouble(parts[2].trim());
                 int quantity = Integer.parseInt(parts[3].trim());
-                Allassets.add(new asset(id, expectedReturn, riskLevel, quantity));
+                Allassets.add(new asset(id,  expectedReturn, riskLevel, quantity));
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
     
+    
+
 
 
 
