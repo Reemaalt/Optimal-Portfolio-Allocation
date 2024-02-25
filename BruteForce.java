@@ -52,6 +52,7 @@ i. Update maxReturn, minRisk, and optimalAllocation.
 }*/
 
 public void assetAlocater(int currentID, double currentReturn, double currentRisk, List<asset> currentAllocation) {
+        // Base case: all assets allocated
     if (currentID == Allassets.size()) {
         if (currentRisk <= MAXRisk && currentReturn > MAXreturn) {
             MAXreturn = currentReturn;
