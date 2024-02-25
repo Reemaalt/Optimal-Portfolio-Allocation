@@ -11,6 +11,8 @@ public class BruteForce  {
 double MAXreturn;
 double MAXRisk;
 double totalinvestment;
+private double totalInvestment;
+
 List<asset> optimalInvsment;
 //static List<asset> Allassets;
  static ArrayList<asset> Allassets = new ArrayList<>();//?
@@ -46,14 +48,25 @@ public void assetAlocater(int currentID, double currentReturn, double currentRis
         double newReturn = currentReturn + copyOfCurrentAsset.expectedReturn * i;
 
         // Recursively call the assetAlocater method for the next asset
-        assetAlocater(currentID + 1, newReturn, newRisk, currentAllocation);
+        //assetAlocater(currentID + 1, newReturn, newRisk, currentAllocation);
        
+         // Ensure total investment constraint is not violated
+         if (getTotalInvestment(currentAllocation) <= totalInvestment) {
+            // Recursively call the assetAllocator method for the next asset
+            assetAlocater(currentID + 1, newReturn, newRisk, currentAllocation);
+        }
         // Remove the current asset from the allocation for backtracking
         currentAllocation.remove(currentAllocation.size() - 1);
     }
 }
 
-
+private double getTotalInvestment(List<asset> allocation) {
+    double total = 0.0;
+    for (asset asset : allocation) {
+        total += asset.quantity;
+    }
+    return total;
+}
 
     public void writeOutput(String FileName){
 
@@ -80,6 +93,10 @@ public void assetAlocater(int currentID, double currentReturn, double currentRis
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(":");
                 String id = parts[0].trim();
+              if (parts.length>4){
+                System.err.println("erro");
+                continue;
+                }
                 double expectedReturn = Double.parseDouble(parts[1].trim());
                 double riskLevel = Double.parseDouble(parts[2].trim());
                 int quantity = Integer.parseInt(parts[3].trim());
