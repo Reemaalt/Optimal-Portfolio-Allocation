@@ -6,7 +6,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BruteForce  {
+public class BruteForce {
 
 double MAXreturn;
 double MAXRisk;
@@ -72,12 +72,11 @@ i. Update maxReturn, minRisk, and optimalAllocation. */
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             Allassets = new ArrayList<>();
             String line;
-            // Read each line from the file and parse asset information
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(":");
                  if (parts.length < 4) {
                     System.err.println("Invalid format in line: " + line);
-                    continue;  // Skip this line and continue with the next line
+                    continue;
                 }
                 String id = parts[0].trim();
                 double expectedReturn;
@@ -93,37 +92,15 @@ i. Update maxReturn, minRisk, and optimalAllocation. */
                 }
                 Allassets.add(new asset(id, expectedReturn, riskLevel, quantity));
             }
-        } catch (IOException e) {
+        } catch (IOException | NumberFormatException e) {
             e.printStackTrace();
         }
     }
+    
+    
 
-/*
-static void readInput(String fileName) {
-        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] parts = line.split(":");
-                if (parts.length == 4) {
-                    String id = parts[0].trim();
-                    double expectedReturn = Double.parseDouble(parts[1].trim());
-                    double riskLevel = Double.parseDouble(parts[2].trim());
-                    int maximumAllowedQuantity = Integer.parseInt(parts[3].trim());
-                    Allassets.add(new asset(id, expectedReturn, riskLevel, maximumAllowedQuantity));
-                } else {
-                    String[] tokens = line.split("\\s+");
-                    if (tokens.length >= 4 && tokens[0].equalsIgnoreCase("Total") && tokens[1].equalsIgnoreCase("investment")) {
-                        totalinvestment = Integer.parseInt(tokens[tokens.length - 2]);
-                    } else if (tokens.length >= 5 && tokens[0].equalsIgnoreCase("Risk") && tokens[1].equalsIgnoreCase("tolerance") && tokens[2].equalsIgnoreCase("level")) {
-                        riskLevel = Double.parseDouble(tokens[tokens.length - 1]);
-                    }
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }    }
 
-*/
+
 
 
 
@@ -132,20 +109,18 @@ static void readInput(String fileName) {
 
 
     public void runprogram(){
-// Read input from the text file 
+// Read input from the text file نورة 
         readInput("Example.txt");
-// Call the brute force method to find optimal allocation 
-        assetAlocater(0, 0, 0, new ArrayList<>());
-// Write optimal allocation and results to output file 
-        writeOutput("Example.txt");
+// Call the brute force method to find optimal allocation ريما
+        assetAlocater(0, 0, 0, Allassets );
+// Write optimal allocation and results to output file نوف
+        writeOutput("Output_BruteForce.txt");
 
     }
 
-// Main method to run the program
     public static void main(String[] args) {
-        BruteForce BruteForce = new BruteForce();
-        BruteForce.runprogram();
+         BruteForce BruteForce = new BruteForce();
+        BruteForce.runProgram();
         System.out.println("done!");
     }
-
 }
