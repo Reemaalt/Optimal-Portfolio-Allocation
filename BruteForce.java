@@ -12,7 +12,9 @@ double MAXreturn;
 double MAXRisk;
 double totalinvestment;
 List<asset> optimalInvsment;
-static List<asset> Allassets;
+//static List<asset> Allassets;
+ static ArrayList<asset> Allassets = new ArrayList<>();//?
+
 
 /*Loop through all possible asset allocations using nested loops.
  a. Calculate the total return and total risk for the current allocation.
@@ -95,31 +97,18 @@ public void assetAlocater(int currentID, double currentReturn, double currentRis
         
     }
 
+    // Method to read input from the text file
     static void readInput(String fileName) {
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
-            Allassets = new ArrayList<>(); //new node
+            Allassets = new ArrayList<>();
             String line;
             // Read each line from the file and parse asset information
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(":");
-                // Check if there are enough parts
-                if (parts.length < 4) {
-                    System.err.println("Invalid format in line: " + line);
-                    continue;  // Skip this line and continue with the next line
-                }
-    
                 String id = parts[0].trim();
-                double expectedReturn;
-                double riskLevel;
-                int quantity;
-                try {
-                    expectedReturn = Double.parseDouble(parts[1].trim());
-                    riskLevel = Double.parseDouble(parts[2].trim());
-                    quantity = Integer.parseInt(parts[3].trim());
-                } catch (NumberFormatException e) {
-                    System.err.println("Error parsing numeric values in line: " + line);
-                    continue;  // Skip this line and continue with the next line
-                }
+                double expectedReturn = Double.parseDouble(parts[1].trim());
+                double riskLevel = Double.parseDouble(parts[2].trim());
+                int quantity = Integer.parseInt(parts[3].trim());
                 Allassets.add(new asset(id, expectedReturn, riskLevel, quantity));
             }
         } catch (IOException e) {
