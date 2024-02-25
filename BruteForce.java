@@ -98,11 +98,17 @@ public void assetAlocater(int currentID, double currentReturn, double currentRis
 
     static void readInput(String fileName) {
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
-            Allassets = new ArrayList<>();
+            Allassets = new ArrayList<>(); //new node
             String line;
             // Read each line from the file and parse asset information
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(":");
+                // Check if there are enough parts
+                if (parts.length < 4) {
+                    System.err.println("Invalid format in line: " + line);
+                    continue;  // Skip this line and continue with the next line
+                }
+    
                 String id = parts[0].trim();
                 double expectedReturn;
                 double riskLevel;
@@ -121,7 +127,7 @@ public void assetAlocater(int currentID, double currentReturn, double currentRis
             e.printStackTrace();
         }
     }
-
+    
 
 
 
