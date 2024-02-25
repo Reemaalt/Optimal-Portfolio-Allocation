@@ -20,40 +20,10 @@ List<asset> optimalInvsment;
  a. Calculate the total return and total risk for the current allocation.
 b. If the risk is within the specified tolerance and return is greater than maxReturn:
 i. Update maxReturn, minRisk, and optimalAllocation. 
-    public void assetAlocater(int currentID,  double currentReturn, double currentRisk, List<asset> currentAllocation) {
-    // Base case: all assets allocated
-    if (currentID == Allassets.size()) {
-        // Check if the current allocation is within the risk and investment constraints
-        if (currentRisk <= MAXRisk && currentReturn > MAXreturn) {
-            // Update maxReturn, maxRisk, and optimalAllocation
-            MAXreturn = currentReturn;
-            MAXRisk = currentRisk;
-            optimalInvsment = new ArrayList<>(currentAllocation);
-        }
-        return;
-    }
-
-    // Get the current asset
-    asset currentAsset = Allassets.get(currentID);
-
-    // Try different quantities of the current asset in the portfolio
-    for (int i = 0; i <= currentAsset.quantity; i++) {
-        currentAsset.quantity = i;  // Update the quantity of the current asset in the allocation
-        currentAllocation.add(currentAsset);  // Add the current asset to the allocation
-
-        // Calculate the new risk and return after adding the current asset
-        double newRisk = currentRisk + currentAsset.riskTolerance * i;
-        double newReturn = currentReturn + currentAsset.expectedReturn * i;
-
-        // Recursively call the assetAlocater method for the next asset
-        assetAlocater(currentID + 1, newRisk, newReturn, currentAllocation);
-
-        // Remove the current asset from the allocation for backtracking
-        currentAllocation.remove(currentAllocation.size() - 1);
-    }
-}*/
+  */
 
 public void assetAlocater(int currentID, double currentReturn, double currentRisk, List<asset> currentAllocation) {
+        // Base case: all assets allocated
     if (currentID == Allassets.size()) {
         if (currentRisk <= MAXRisk && currentReturn > MAXreturn) {
             MAXreturn = currentReturn;
@@ -62,19 +32,23 @@ public void assetAlocater(int currentID, double currentReturn, double currentRis
         }
         return;
     }
-
+    // Get the current asset
     asset currentAsset = Allassets.get(currentID);
-
+    // Try different quantities of the current asset in the portfolio
+    
     for (int i = 0; i <= currentAsset.quantity; i++) {
         asset copyOfCurrentAsset = new asset(currentAsset.ID, currentAsset.expectedReturn, currentAsset.riskTolerance, currentAsset.quantity);
-        copyOfCurrentAsset.quantity = i;
-        currentAllocation.add(copyOfCurrentAsset);
-
+        copyOfCurrentAsset.quantity = i; // Update the quantity of the current asset in the allocation
+        currentAllocation.add(copyOfCurrentAsset); // Add the current asset to the allocation
+        
+        // Calculate the new risk and return after adding the current asset
         double newRisk = currentRisk + copyOfCurrentAsset.riskTolerance * i;
         double newReturn = currentReturn + copyOfCurrentAsset.expectedReturn * i;
 
+        // Recursively call the assetAlocater method for the next asset
         assetAlocater(currentID + 1, newReturn, newRisk, currentAllocation);
-
+       
+        // Remove the current asset from the allocation for backtracking
         currentAllocation.remove(currentAllocation.size() - 1);
     }
 }
