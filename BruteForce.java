@@ -59,7 +59,7 @@ public class BruteForce {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(":");
-                if (parts.length < 6 ) {
+                if (parts.length < 5 ) {
                     System.err.println("Invalid format in line: " + line);
                     continue;
                 }
