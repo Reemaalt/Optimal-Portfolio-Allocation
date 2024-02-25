@@ -1,1 +1,3 @@
 Optimal Allocation:
+Expected Portfolio Return: 4.9E-324
+Portfolio Risk Level: 1.7976931348623157E308
