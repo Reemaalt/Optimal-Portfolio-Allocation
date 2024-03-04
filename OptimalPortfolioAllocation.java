@@ -6,14 +6,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-// Class to represent each asset in the portfolio
 class Asset {
     String id;
     double expectedReturn;
     double riskLevel;
     int quantity;
 
-    // Constructor to initialize an Asset
     public Asset(String id, double expectedReturn, double riskLevel, int quantity) {
         this.id = id;
         this.expectedReturn = expectedReturn;
@@ -22,25 +20,23 @@ class Asset {
     }
 }
 
-// Main class for Brute Force Portfolio Allocation
-public class BruteForce {
-    static List<Asset> assets;        // List to store all the assets
-    static int totalInvestment;       // Total investment amount
-    static double riskToleranceLevel;// Risk tolerance level
-    static double maxReturn;          // Maximum expected return
-    static double maxRisk;            // Maximum allowed risk in the portfolio
-    static List<Asset> optimalAllocation;  // Optimal allocation of assets
+public class OptimalPortfolioAllocation {
+    static List<Asset> assets;
+    static int totalInvestment;
+    static double riskToleranceLevel;
+    static double maxReturn;
+    static double maxRisk;
+    static List<Asset> optimalAllocation;
 
-    // Main method to run the program
     public static void main(String[] args) {
         optimalAllocation = new ArrayList<>();
-
         readInput("Example.txt");
+        maxRisk = riskToleranceLevel;
+
         bruteForce(0, 0, 0, new ArrayList<>());
-        writeOutput("Output_BruteForce.txt");
+        writeOutput("Output_OptimalPortfolio.txt");
     }
 
-    // Method to read input from the text file
     static void readInput(String fileName) {
         assets = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
@@ -67,7 +63,6 @@ public class BruteForce {
         }
     }
 
-    // Brute force algorithm to explore all possible allocations
     static void bruteForce(int currentIndex, double currentInvestment, double currentRisk, List<Asset> currentAllocation) {
         if (currentIndex == assets.size()) {
             if (currentRisk <= maxRisk && currentInvestment <= totalInvestment) {
@@ -90,7 +85,6 @@ public class BruteForce {
         }
     }
 
-    // Method to write output to a file
     static void writeOutput(String fileName) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName))) {
             bw.write("Optimal Allocation:\n");

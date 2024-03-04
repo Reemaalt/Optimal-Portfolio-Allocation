@@ -1,3 +1,0 @@
-Optimal Allocation:
-Expected Portfolio Return: 0.0
-Portfolio Risk Level: 0.0
