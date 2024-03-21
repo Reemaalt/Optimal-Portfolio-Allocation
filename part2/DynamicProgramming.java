@@ -13,7 +13,7 @@ class DynamicProgrammingSolver {
     //main method
     public static void main(String[] args) throws FileNotFoundException {
         DynamicProgrammingSolver solver = new DynamicProgrammingSolver();
-        solver.solve("try1.txt");
+        solver.solve("try2.txt");
     }
     // Asset class
     static class Asset {
@@ -69,7 +69,7 @@ class DynamicProgrammingSolver {
         return allocation;
     }
 
-    // Output the optimal allocation, expected return, and risk level
+    // Output the optimal allocation,write
     public void outputOptimalAllocation(Map<String, Integer> allocation, List<Asset> assets) {
         double totalExpectedReturn = 0;
         double totalRiskLevel = 0;
@@ -87,7 +87,7 @@ class DynamicProgrammingSolver {
         System.out.println("Portfolio Risk Level: " + totalRiskLevel);
     }
 
-    // Main method to execute the asset allocation solver
+    //read
     public void solve(String fileName) {
         try {
             Scanner sc = new Scanner(new File(fileName));
@@ -114,7 +114,7 @@ class DynamicProgrammingSolver {
             // Call the dynamic programming algorithm
             Map<String, Integer> optimalAllocation = dynamicProgramming(assets, totalInvestment, riskToleranceLevel);
 
-            // Output the optimal allocation, expected return, and risk level
+            // Output write
             outputOptimalAllocation(optimalAllocation, assets);
 
         } catch (FileNotFoundException e) {
