@@ -3,3 +3,6 @@ TSLA : 0.1 : 0.05 : 400
 FB : 0.06 : 0.025 : 700
 Total Investment is 900 units
 Risk Tolerance Level is 0.038
+Optimal Allocation:
+Expected Portfolio Return: 0.0
+Portfolio Risk Level: 0.0
