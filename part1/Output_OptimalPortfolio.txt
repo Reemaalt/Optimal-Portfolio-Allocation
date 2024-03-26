@@ -1,0 +1,6 @@
+Optimal Allocation:
+AAPL: 1 units
+GOOGL: 0 units
+MSFT: 0 units
+Expected Portfolio Return: 0.05
+Portfolio Risk Level: 0.02
