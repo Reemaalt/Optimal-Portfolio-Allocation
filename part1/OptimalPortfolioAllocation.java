@@ -89,7 +89,7 @@ public class OptimalPortfolioAllocation {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName))) {
             bw.write("Optimal Allocation:\n");
             for (Asset asset : optimalAllocation) {
-                bw.write(asset.id + ": " + asset.quantity + " units\n");
+                bw.write(asset.id + asset.expectedReturn+": Expected-return\n" +asset.riskLevel +" : Risk-level\n"  + asset.quantity + " units\n");
             }
             bw.write("Expected Portfolio Return: " + maxReturn + "\n");
             bw.write("Portfolio Risk Level: " + maxRisk + "\n");
