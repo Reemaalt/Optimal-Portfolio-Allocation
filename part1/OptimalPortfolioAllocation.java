@@ -30,38 +30,64 @@ public class OptimalPortfolioAllocation {
 
     public static void main(String[] args) {
         optimalAllocation = new ArrayList<>();
-        readInput("Example.txt");
         maxRisk = riskToleranceLevel;
-
-        bruteForce(0, 0, 0, new ArrayList<>());
+       
+        readInput("Example4.txt");
+       
+        bruteForce(0, 0, 0, assets);
+       
         writeOutput("Output_OptimalPortfolio.txt");
     }
 
-    static void readInput(String fileName) {
-        assets = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] parts = line.split(":");
-                if (parts.length == 4) {
-                    String id = parts[0].trim();
+   
+  static List<Asset> readInput(String fileName) {
+    
+        List<Asset> assets = new ArrayList<>();
+
+    try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+        String line;
+
+        while ((line = br.readLine()) != null) {
+            String[] parts = line.split(":");
+            if (parts.length == 4) {
+                String id = parts[0].trim();
+                try {
                     double expectedReturn = Double.parseDouble(parts[1].trim());
                     double riskLevel = Double.parseDouble(parts[2].trim());
                     int quantity = Integer.parseInt(parts[3].trim());
                     assets.add(new Asset(id, expectedReturn, riskLevel, quantity));
-                } else {
-                    String[] tokens = line.split("\\s+");
-                    if (tokens.length >= 4 && tokens[0].equalsIgnoreCase("Total") && tokens[1].equalsIgnoreCase("investment")) {
-                        totalInvestment = Integer.parseInt(tokens[tokens.length - 2]);
-                    } else if (tokens.length >= 5 && tokens[0].equalsIgnoreCase("Risk") && tokens[1].equalsIgnoreCase("tolerance") && tokens[2].equalsIgnoreCase("level")) {
-                        riskToleranceLevel = Double.parseDouble(tokens[tokens.length - 1]);
-                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Error parsing values for line: " + line);
+                }
+            } else {
+                String[] tokens = line.split("\\s+");
+                if (tokens.length >= 4 && tokens[0].equalsIgnoreCase("Total") && tokens[1].equalsIgnoreCase("investment")) {
+                    totalInvestment = Double.parseDouble(tokens[tokens.length - 2]);
+                } else if (tokens.length >= 5 && tokens[0].equalsIgnoreCase("Risk") && tokens[1].equalsIgnoreCase("tolerance") && tokens[2].equalsIgnoreCase("level")) {
+                    riskToleranceLevel = Double.parseDouble(tokens[tokens.length - 1]);
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        } // end while
+        
+    }  //end try
+         catch (FileNotFoundException e) {
+            System.err.println("File not found: " + fileName);
+        } catch (NumberFormatException e) {
+            System.err.println("Error parsing number in the file.");
+        } catch (IllegalArgumentException e) {
+            System.err.println("Input file format error: " + e.getMessage());
+    } catch (IOException e) {
+        e.printStackTrace();
     }
+
+    // Print to verify values were read correctly
+    System.out.println("Total Investment: " + totalInvestment);
+    System.out.println("Risk Tolerance Level: " + riskToleranceLevel);
+
+    return assets;
+}
+
 
     static void bruteForce(int currentIndex, double currentInvestment, double currentRisk, List<Asset> currentAllocation) {
         if (currentIndex == assets.size()) {
@@ -84,17 +110,18 @@ public class OptimalPortfolioAllocation {
             currentAllocation.remove(currentAllocation.size() - 1);
         }
     }
-
-    static void writeOutput(String fileName) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName))) {
-            bw.write("Optimal Allocation:\n");
-            for (Asset asset : optimalAllocation) {
-                bw.write(asset.id + asset.expectedReturn+": Expected-return\n" +asset.riskLevel +" : Risk-level\n"  + asset.quantity + " units\n");
-            }
-            bw.write("Expected Portfolio Return: " + maxReturn + "\n");
-            bw.write("Portfolio Risk Level: " + maxRisk + "\n");
-        } catch (IOException e) {
-            e.printStackTrace();
+static void writeOutput(String fileName) {
+    try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName))) {
+        bw.write("Optimal Allocation:\n");
+        for (Asset asset : optimalAllocation) {
+            bw.write(asset.id + ": " + asset.quantity + " units\n");
         }
+        bw.write("Expected Portfolio Return: " + maxReturn + "\n");
+        bw.write("Portfolio Risk Level: " + maxRisk + "\n");
+    } catch (IOException e) {
+        e.printStackTrace();
     }
+}
+
+   
 }
