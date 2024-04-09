@@ -1,0 +1,7 @@
+AAPL : 0.05 : 0.02 : 1300
+GOOGL : 0.08 : 0.03 : 1800
+MSFT : 0.04 : 0.015 : 1900
+AMZN : 0.06 : 0.025 : 1500
+FB : 0.07 : 0.035 : 1600
+Total investment is 5000 units
+Risk tolerance level is 0.15
