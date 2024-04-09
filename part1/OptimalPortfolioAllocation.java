@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -22,25 +23,30 @@ class Asset {
 
 public class OptimalPortfolioAllocation {
     static List<Asset> assets;
-    static int totalInvestment;
+    static double totalInvestment;
     static double riskToleranceLevel;
     static double maxReturn;
     static double maxRisk;
     static List<Asset> optimalAllocation;
 
     public static void main(String[] args) {
-        optimalAllocation = new ArrayList<>();
-        maxRisk = riskToleranceLevel;
+      
+     
+       OptimalPortfolioAllocation SOLVE  = new OptimalPortfolioAllocation();
+       SOLVE.run();
        
-        readInput("Example4.txt");
-       
-        bruteForce(0, 0, 0, assets);
-       
-        writeOutput("Output_OptimalPortfolio.txt");
     }
 
+    public void run() {
+    assets = readInput("Example2.txt");
    
-  static List<Asset> readInput(String fileName) {
+    optimalAllocation = new ArrayList<>();
+    maxRisk = riskToleranceLevel; // Update maxRisk here
+    bruteForce(0, 0, 0, new ArrayList<>());
+    }
+
+  
+    public  List<Asset> readInput(String fileName) {
     
         List<Asset> assets = new ArrayList<>();
 
@@ -89,39 +95,42 @@ public class OptimalPortfolioAllocation {
 }
 
 
-    static void bruteForce(int currentIndex, double currentInvestment, double currentRisk, List<Asset> currentAllocation) {
-        if (currentIndex == assets.size()) {
-            if (currentRisk <= maxRisk && currentInvestment <= totalInvestment) {
-                double currentReturn = currentAllocation.stream().mapToDouble(a -> a.expectedReturn * a.quantity).sum();
-                if (currentReturn > maxReturn) {
-                    maxReturn = currentReturn;
-                    optimalAllocation = new ArrayList<>(currentAllocation);
-                }
+    public void bruteForce(int currentIndex, double currentInvestment, double currentRisk, List<Asset> currentAllocation) {
+    if (currentIndex == assets.size()) {
+        if (currentRisk <= riskToleranceLevel && currentInvestment <= totalInvestment) {
+            double currentReturn = currentAllocation.stream().mapToDouble(a -> a.expectedReturn * a.quantity).sum();
+            if (currentReturn > maxReturn) {
+                maxReturn = currentReturn;
+                maxRisk = currentRisk; // Update maxRisk when a feasible allocation is found
+                optimalAllocation = new ArrayList<>(currentAllocation);
             }
-            return;
         }
-
-        Asset currentAsset = assets.get(currentIndex);
-
-        for (int i = 0; i <= currentAsset.quantity; i++) {
-            Asset newAsset = new Asset(currentAsset.id, currentAsset.expectedReturn, currentAsset.riskLevel, i);
-            currentAllocation.add(newAsset);
-            bruteForce(currentIndex + 1, currentInvestment + i, currentRisk + currentAsset.riskLevel * i, currentAllocation);
-            currentAllocation.remove(currentAllocation.size() - 1);
-        }
+        return;
     }
-static void writeOutput(String fileName) {
-    try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName))) {
-        bw.write("Optimal Allocation:\n");
-        for (Asset asset : optimalAllocation) {
-            bw.write(asset.id + ": " + asset.quantity + " units\n");
-        }
-        bw.write("Expected Portfolio Return: " + maxReturn + "\n");
-        bw.write("Portfolio Risk Level: " + maxRisk + "\n");
-    } catch (IOException e) {
-        e.printStackTrace();
+
+    Asset currentAsset = assets.get(currentIndex);
+
+    for (int i = 0; i <= currentAsset.quantity; i++) {
+        Asset newAsset = new Asset(currentAsset.id, currentAsset.expectedReturn, currentAsset.riskLevel, i);
+        currentAllocation.add(newAsset);
+        bruteForce(currentIndex + 1, currentInvestment + i, currentRisk + currentAsset.riskLevel * i, currentAllocation);
+        currentAllocation.remove(currentAllocation.size() - 1);
     }
+    writeOutput("Output_OptimalPortfolio.txt");
+
 }
 
-   
+
+    public void writeOutput(String fileName) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName))) {
+            bw.write("Optimal Allocation:\n");
+            for (Asset asset : optimalAllocation) {
+                bw.write(asset.id + ": " + asset.quantity + " units\n");
+            }
+            bw.write("Expected Portfolio Return: " + maxReturn + "\n");
+            bw.write("Portfolio Risk Level: " + maxRisk + "\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

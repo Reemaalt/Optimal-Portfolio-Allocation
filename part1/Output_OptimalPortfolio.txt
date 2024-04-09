@@ -1,0 +1,7 @@
+Optimal Allocation:
+TSLA: 0 units
+AMZN: 1 units
+NFLX: 0 units
+FB: 0 units
+Expected Portfolio Return: 0.06
+Portfolio Risk Level: 0.02
