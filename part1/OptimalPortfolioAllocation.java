@@ -43,7 +43,7 @@ public class OptimalPortfolioAllocation {
    
     optimalAllocation = new ArrayList<>();
     maxRisk = riskToleranceLevel; // Update maxRisk here
-    bruteForce(0, 0, 0, new ArrayList<>());
+    bruteForce(0, 0, 0, optimalAllocation);
     }
 
   

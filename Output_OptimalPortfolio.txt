@@ -1,7 +1,0 @@
-Optimal Allocation:
-GOOGL: 0 units
-AAPL: 1 units
-MSFT: 0 units
-NVDA: 0 units
-Expected Portfolio Return: 0.07
-Portfolio Risk Level: 0.025
