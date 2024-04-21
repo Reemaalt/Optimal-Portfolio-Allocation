@@ -38,7 +38,8 @@ public class OptimalPortfolioAllocation {
     }
 
     public void run() {
-    assets = readInput("Example2.txt");
+         // some devices need the path of the file !!
+    assets = readInput("C:\\Users\\altwu\\OneDrive\\Desktop\\Optimal-Portfolio-Allocation\\part1\\Example3.txt");
    
     optimalAllocation = new ArrayList<>();
     maxRisk = riskToleranceLevel; // Update maxRisk here

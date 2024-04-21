@@ -39,7 +39,7 @@ public class DynamicProgrammingSolver {
     public void  run (){
                 // Read input from file
                 // some devices need the path of the file !!
-                List<Asset> assets = readInputFromFile("Example3.txt");
+                List<Asset> assets = readInputFromFile("C:\\Users\\altwu\\OneDrive\\Desktop\\Optimal-Portfolio-Allocation\\part2\\Example3.txt");
                 // Solve optimal allocation problem
                 List<Asset> optimalAllocation = findOptimalAllocation(assets, totalInvestment, riskToleranceLevel);
                 // Write output to file
